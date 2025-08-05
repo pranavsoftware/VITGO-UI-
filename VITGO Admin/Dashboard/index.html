@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="../Dashboard/styles.css">
+    <link rel="icon" href="../assets/logo (1).png" type="image/x-icon">
+    <title>VITGO | VITians Notice</title>
+    <script type="module" src="../Dashboard/script.js" defer></script>
+    
+    <!-- Additional styles for enhanced notice system -->
+    <style>
+        /* Notice form styling */
+        #notice-form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+        }
+
+        #notice-form h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.5em;
+        }
+
+        #notice-text {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+            background: #fafafa;
+        }
+
+        #notice-text:focus {
+            outline: none;
+            border-color: #4CAF50;
+            background: #fff;
+        }
+
+        #notice-form button[type="submit"] {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        #notice-form button[type="submit"]:hover {
+            background: linear-gradient(135deg, #45a049, #4CAF50);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        #notice-form button[type="submit"]:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Notices container styling */
+        .notices-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .notices-container h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+
+        /* Individual notice styling */
+        .notice {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+        }
+
+        .notice:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .notice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .notice-header h4 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .notice-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .edit-btn {
+            background: #2196F3;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: #1976D2;
+            transform: translateY(-1px);
+        }
+
+        .delete-btn {
+            background: #f44336;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #d32f2f;
+            transform: translateY(-1px);
+        }
+
+        .notice-content {
+            margin-bottom: 15px;
+        }
+
+        .notice-content p {
+            margin: 0;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .notice-content strong {
+            color: #2c3e50;
+        }
+
+        .notice-footer {
+            border-top: 1px solid #f0f0f0;
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .notice-date, .notice-edited {
+            margin: 0;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .notice-edited {
+            color: #ff9800;
+            font-style: italic;
+        }
+
+        /* Empty state styling */
+        .empty-state {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 2px dashed #ddd;
+        }
+
+        /* Loading spinner enhancement */
+        .notices-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .notices-loading .spinner-small {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Message notifications styling */
+        .message-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 6px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: slideIn 0.3s ease;
+            max-width: 300px;
+        }
+
+        .message-notification.success {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+        }
+
+        .message-notification.error {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Modal styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.4em;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            min-width: 80px;
+        }
+
+        .modal-btn.primary {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .modal-btn.primary:hover {
+            background: #45a049;
+        }
+
+        .modal-btn.danger {
+            background: #f44336;
+            color: white;
+        }
+
+        .modal-btn.danger:hover {
+            background: #d32f2f;
+        }
+
+        .modal-btn.secondary {
+            background: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .modal-btn.secondary:hover {
+            background: #f5f5f5;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .notice-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .notice-actions {
+                align-self: flex-end;
+                margin-top: 10px;
+            }
+
+            .modal-content {
+                margin: 20px;
+                width: calc(100% - 40px);
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .modal-btn {
+                width: 100%;
+            }
+        }
+
+        /* Character counter for textarea */
+        .character-counter {
+            text-align: right;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .character-counter.warning {
+            color: #ff9800;
+        }
+
+        .character-counter.error {
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="spinner" id="spinner">
+        <video autoplay loop muted>
+            <source src="../assets/preloader.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="loading-text">Please wait, the dashboard is loading...</div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <img src="../assets/logo (1).png" alt="Company Logo" />
+            <span class="company-name">VITGO</span>
+        </div>
+        <div class="user-info">
+            <img id="profile-pic" src="" alt="Profile Picture" />
+            <span id="name"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+        <button class="menu-btn" id="menu-btn">Menu</button>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <button class="close-btn" id="close-btn">&times;</button>
+        <h3>Menu</h3>
+        <ul>
+            <li><a href="../Dashboard/index.html">Dashboard</a></li>
+            <li><a href="../VITian Details/index.html">VITian Details</a></li>
+            <li><a href="../VITian Location Details/index.html">VITian Location Details</a></li>
+            <li><a href="../Driver location/index.html">Driver Location</a></li>
+            <li><a href="../Gate Entry/index.html">Gate Entry</a></li>
+            <li><a href="../in-out/index.html">Scanner</a></li>
+            <li><a href="../Plans/index.html">VITians Plans</a></li>
+            <li><a href="../Feedback/index.html">VITians Feedback</a></li>
+            <li><a href="../VITian Notice/index.html" class="active">VITians Notice</a></li>
+            <li><a href="../EasyCab Driver Details/index.html">TAXI Driver Details</a></li>
+            <li><a href="../EasyCab Employee Details/index.html">TAXI Employee Details</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <main class="main-content">
+            <!-- Notice Posting Form -->
+            <section class="notice-form-section">
+                <form id="notice-form">
+                    <h2>📢 Post New Notice</h2>
+                    <textarea 
+                        id="notice-text" 
+                        placeholder="Write your notice here... (Share important updates, announcements, or information for VITians)"
+                        required
+                        maxlength="1000"
+                    ></textarea>
+                    <div class="character-counter" id="char-counter">0/1000 characters</div>
+                    <button type="submit">
+                        <span class="btn-text">Post Notice</span>
+                        <span class="btn-loading" style="display: none;">Posting...</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Notices Display Section -->
+            <section class="notices-section">
+                <h2>📋 Recent Notices</h2>
+                <div id="notices" class="notices-container">
+                    <!-- Loading state -->
+                    <div class="notices-loading" id="notices-loading">
+                        <div class="spinner-small"></div>
+                        <p>Loading notices...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 EasyCab. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        document.getElementById('menu-btn').onclick = function () {
+            document.getElementById('sidebar').classList.toggle('active');
+        };
+
+        document.getElementById('close-btn').onclick = function () {
+            document.getElementById('sidebar').classList.remove('active');
+        };
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.getElementById('menu-btn');
+            
+            if (!sidebar.contains(event.target) && !menuBtn.contains(event.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // Character counter for textarea
+        document.getElementById('notice-text').addEventListener('input', function() {
+            const counter = document.getElementById('char-counter');
+            const length = this.value.length;
+            const maxLength = 1000;
+            
+            counter.textContent = `${length}/${maxLength} characters`;
+            
+            // Add warning/error classes based on character count
+            counter.classList.remove('warning', 'error');
+            if (length > maxLength * 0.9) {
+                counter.classList.add('warning');
+            }
+            if (length >= maxLength) {
+                counter.classList.add('error');
+            }
+        });
+
+        // Auto-resize textarea
+        document.getElementById('notice-text').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+        });
+
+        // Add active class to current page in sidebar
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname;
+            const sidebarLinks = document.querySelectorAll('.sidebar a');
+            
+            sidebarLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage || 
+                    (currentPage.includes('Notice') && link.textContent.includes('Notice'))) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Enhanced form submission with visual feedback
+        document.getElementById('notice-form').addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+            
+            // Show loading state
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline';
+            submitBtn.disabled = true;
+            
+            // The actual form submission will be handled by the JavaScript module
+            // This is just for visual feedback
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + Enter to submit form when textarea is focused
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                const textarea = document.getElementById('notice-text');
+                if (document.activeElement === textarea && textarea.value.trim()) {
+                    document.getElementById('notice-form').dispatchEvent(new Event('submit'));
+                }
+            }
+            
+            // Escape key to close modals
+            if (e.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal-overlay');
+                modals.forEach(modal => modal.remove());
+            }
+        });
+
+        // Add loading animation to notices container
+        function showNoticesLoading() {
+            const noticesContainer = document.getElementById('notices');
+            const loadingElement = document.getElementById('notices-loading');
+            if (loadingElement) {
+                loadingElement.style.display = 'flex';
+            }
+        }
+
+        function hideNoticesLoading() {
+            const loadingElement = document.getElementById('notices-loading');
+            if (loadingElement) {
+                loadingElement.style.display = 'none';
+            }
+        }
+
+        // Smooth scrolling for new notices
+        function scrollToLatestNotice() {
+            const notices = document.querySelectorAll('.notice');
+            if (notices.length > 0) {
+                notices[0].scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }
+        }
+
+        // Add tooltips to action buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            // This will be enhanced by the main JavaScript file
+            console.log('Notice system enhanced HTML loaded');
+        });
+    </script>
+</body>
+</html>

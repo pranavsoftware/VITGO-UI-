@@ -1,0 +1,206 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgb(0, 0, 0);
+    color: white;
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 50px;
+    margin-right: 10px;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+}
+
+.menu-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.menu-list li {
+    margin: 0 15px;
+}
+
+.menu-list a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.menu-list a:hover {
+    color: #ffcc00;
+}
+
+/* Responsive Menu */
+.menu-toggle {
+    display: none;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* Hero Section */
+.hero-section {
+    background: url('../assets/main\ page.jpg') no-repeat center center/cover;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.hero-content h2 {
+    font-size: 36px;
+}
+
+.hero-content p {
+    font-size: 18px;
+}
+
+/* Content Sections */
+.content-section {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: white;
+    margin: 20px auto;
+    max-width: 1200px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Zigzag Layout */
+.zigzag {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 20px auto;
+    max-width: 1100px;
+}
+
+.zigzag.reverse {
+    flex-direction: row-reverse;
+}
+
+.image {
+    flex: 1;
+    padding: 10px;
+}
+
+.image img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.text {
+    flex: 1;
+    padding: 10px;
+    text-align: left;
+}
+
+.text h2, .text h3 {
+    color: #333;
+}
+
+.social-media {
+    margin-top: 10px;
+}
+
+.social-btn {
+    display: inline-block;
+    background: purple;
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.social-btn:hover {
+    background: darkviolet;
+}
+
+/* Footer */
+footer {
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    color: #ffcc00;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.social-links a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .menu-list {
+        display: none;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.9);
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        width: 200px;
+        border-radius: 5px;
+    }
+
+    .menu-list.show {
+        display: flex;
+    }
+
+    .menu-list li {
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .zigzag {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .text {
+        text-align: center;
+    }
+}

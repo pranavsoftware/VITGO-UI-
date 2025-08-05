@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VITGO | Driver Details</title>
+    <link rel="stylesheet" href="../Driver Details/style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <img src="../assets/logo (1).png" alt="VITGO Logo" class="logo">
+        <span class="company-name">VITGO | Driver Details</span>
+        <button class="menu-btn" id="menu-btn">Menu</button>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <button class="close-btn" id="close-btn">&times;</button>
+        <h3>Menu</h3>
+        <ul>
+            <li><a href="../Dashboard Page/">Dashboard</a></li>
+            <li><a href="../VITian Booking/">VITian Booking</a></li>
+            <li><a href="../Driver Details/">Driver Details</a></li>
+            <li><a href="../driver Location/">Driver Location Details</a></li>
+            <li><a href="../Driver Schedule/">Driver Schedule</a></li>
+            <li><a href="../Employee Details/">Employee Details</a></li>
+            <li><a href="../New Driver/">New Driver</a></li>
+            <li><a href="../New Employee/">New Employee</a></li>
+        </ul>
+    </nav>
+
+    <!-- Driver Details Table -->
+    <div class="container">
+        <h2>Driver Details</h2>
+        <table id="driver-table">
+            <thead>
+                <tr>
+                    <th>Profile Picture</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>License</th>
+                    <th>Taxi Number</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody id="driver-details"></tbody>
+        </table>
+    </div>
+
+    
+
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js"></script>
+    <script type="module" src="../Driver Details/script.js"></script>
+    <script>
+        // Mobile menu and filter functionality
+        document.getElementById('menu-btn').onclick = function () {
+            document.getElementById('sidebar').classList.toggle('active');
+        };
+
+        document.getElementById('close-btn').onclick = function () {
+            document.getElementById('sidebar').classList.remove('active');
+        };
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuBtn = document.getElementById("menu-btn");
+            const closeBtn = document.getElementById("close-btn");
+            const sidebar = document.getElementById("sidebar");
+
+            // Open Sidebar
+            menuBtn.addEventListener("click", () => {
+                sidebar.classList.add("active");
+            });
+
+            // Close Sidebar
+            closeBtn.addEventListener("click", () => {
+                sidebar.classList.remove("active");
+            });
+
+            // Close Sidebar when clicking outside
+            document.addEventListener("click", (event) => {
+                if (!sidebar.contains(event.target) && event.target !== menuBtn) {
+                    sidebar.classList.remove("active");
+                }
+            });
+
+            // Fix Undefined Data in Table
+            document.querySelectorAll("td").forEach((td) => {
+                if (!td.textContent.trim()) {
+                    td.textContent = "N/A";
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>

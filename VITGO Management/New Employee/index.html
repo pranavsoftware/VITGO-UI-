@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VITGO | Employee Registration</title>
+    <link rel="stylesheet" href="../New Employee/style.css">
+    <script type="module" src="../New Employee/script.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <img src="../assets/logo (1).png" alt="Company Logo" class="logo">
+        <h1>VITGO | Employee Registration</h1>
+        <button class="menu-btn" id="menu-btn">Menu</button>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <button class="close-btn" id="close-btn">&times;</button>
+        <h3>Menu</h3>
+        <ul>
+            <li><a href="../Dashboard Page/">Dashboard</a></li>
+            <li><a href="../VITian Booking/">VITian Booking</a></li>
+            <li><a href="../Driver Details/">Driver Details</a></li>
+            <li><a href="../driver Location/">Driver Location Details</a></li>
+            <li><a href="../Driver Schedule/">Driver Schedule</a></li>
+            <li><a href="../Employee Details/">Employee Details</a></li>
+            <li><a href="../New Driver/">New Driver</a></li>
+            <li><a href="../New Employee/">New Employee</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <form id="employeeForm">
+            <input type="text" id="name" placeholder="Name" autocomplete="name" required>
+            <input type="email" id="email" placeholder="Email ID" autocomplete="email" readonly required>
+            <input type="password" id="password" placeholder="Password" autocomplete="new-password" required>
+            <input type="number" id="age" placeholder="Age" required>
+            <input type="tel" id="mobileNumber" placeholder="Mobile Number" pattern="\d{10}" required
+                title="Enter a valid 10-digit mobile number" maxlength="10">
+            <input type="text" id="address" placeholder="Address" required>
+            <input type="text" id="licenceNumber" placeholder="Licence Number" maxlength="12" required pattern="\d{12}"
+                required>
+            <label for="profilePic" class="file-label">Upload Profile Picture (JPG, PNG only)</label>
+            <input type="file" id="profilePic" accept="image/*" required>
+
+            <button type="submit">Register</button>
+        </form>
+        <div id="popupMessage" class="popup-message"></div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 VITGO. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile menu and filter functionality
+        document.getElementById('menu-btn').onclick = function () {
+            document.getElementById('sidebar').classList.toggle('active');
+        };
+
+        document.getElementById('close-btn').onclick = function () {
+            document.getElementById('sidebar').classList.remove('active');
+        };
+    </script>
+
+</body>
+
+</html>
+
+<style>
+    .file-label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .file-hint {
+        font-size: 12px;
+        color: gray;
+        margin-top: 5px;
+    }
+</style>
