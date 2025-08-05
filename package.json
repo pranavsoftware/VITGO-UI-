@@ -1,9 +1,3 @@
-{
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "firebase-admin": "^13.1.0",
-    "nodemailer": "^6.10.0"
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:97abeed6df561bf7622e92654669ebe9e8c503f0bf456947d3b7f99d5d0ee401
+size 162
