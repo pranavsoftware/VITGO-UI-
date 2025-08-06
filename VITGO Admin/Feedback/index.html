@@ -3,72 +3,550 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback Page</title>
+    <title>Feedback Management | VITGO Admin</title>
     <link rel="stylesheet" href="../Feedback/styles.css">
-    <link rel="icon" href="../assets/tab logo.ico" type="image/x-icon">
-    <!-- Include Firebase libraries -->
-    <script type="module" src="../Feedback/scripts.js" defer></script>
+    <link rel="icon" href="../assets/logo (1).png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Spinner for loading feedback -->
-    <div class="spinner" id="spinner">
-        <video autoplay loop muted>
-            <source src="../assets/preloader.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="../assets/logo (1).png" alt="VITGO Logo" class="logo-img">
+                <span class="logo-text">VITGO</span>
+                <span class="admin-badge">Admin</span>
+            </div>
+            <div class="nav-menu">
+                <a href="../Dashboard/index.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="../../LM/index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="../Login Page/index.html" class="nav-link logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+        </div>
         <div class="loading-text">Loading Feedback...</div>
     </div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="logo-container">
-            <img src="../assets/logo (1).png" alt="Company Logo" class="logo">
-            <h1 class="company-name">VITGO</h1>
-        </div>
-        <button class="menu-btn" id="menu-btn">Menu</button>
-    </header>
-
-    <!-- Sidebar -->
-    <nav class="sidebar" id="sidebar">
-        <button class="close-btn" id="close-btn">&times;</button>
-        <h3>Menu</h3>
-        <ul>
-            <li><a href="../Dashboard/index.html">Dashboard</a></li>
-            <li><a href="../VITian Details/index.html">VITian Details</a></li>
-            <li><a href="../VITian Location Details/index.html">VITian Location Details</a></li>
-            <li><a href="../Gate Entry/index.html">Gate Entry</a></li>
-            <li><a href="../in-out/index.html">Scanner</a></li>
-            <li><a href="../Plans/index.html">VITians Plans</a></li>
-            <li><a href="../Feedback/index.html">VITians Feedback</a></li>
-            <li><a href="../VITian Notice/index.html">VITians Notice</a></li>
-            <li><a href="../EasyCab Driver Details/index.html">TAXI Driver Details</a></li>
-            <li><a href="../EasyCab Employee Details/index.html">TAXI Employee Details</a></li>
-        </ul>
-    </nav>
-
     <!-- Main Content -->
-    <main>
-        <div class="feedback-container">
-            <h2>User Feedback</h2>
-            <div id="feedback-list"></div>
+    <main class="main-content">
+        <div class="page-container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="header-content">
+                    <h1 class="page-title">
+                        <i class="fas fa-comments"></i>
+                        Feedback Management
+                    </h1>
+                    <p class="page-subtitle">Monitor and manage user feedback for VITGO services</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="avgRating">0.0</div>
+                            <div class="stat-label">Avg Rating</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="totalFeedback">0</div>
+                            <div class="stat-label">Total Feedback</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters Section -->
+            <div class="controls-section">
+                <div class="section-title">
+                    <i class="fas fa-filter"></i>
+                    Filter Feedback
+                </div>
+                <div class="controls-row">
+                    <div class="control-group">
+                        <label class="control-label">Rating Filter</label>
+                        <select class="control-select" id="ratingFilter">
+                            <option value="">All Ratings</option>
+                            <option value="5">5 Stars</option>
+                            <option value="4">4 Stars</option>
+                            <option value="3">3 Stars</option>
+                            <option value="2">2 Stars</option>
+                            <option value="1">1 Star</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Date Range</label>
+                        <select class="control-select" id="dateFilter">
+                            <option value="">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Search</label>
+                        <input type="text" class="control-input" id="searchInput" placeholder="Search feedback...">
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">&nbsp;</label>
+                        <button class="btn btn-primary" id="refreshBtn">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback Container -->
+            <div class="feedback-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-list"></i>
+                        User Feedback
+                    </h2>
+                    <div class="section-actions">
+                        <button class="btn btn-secondary" id="exportBtn">
+                            <i class="fas fa-download"></i>
+                            Export
+                        </button>
+                    </div>
+                </div>
+                <div class="feedback-grid" id="feedback-list">
+                    <!-- Feedback items will be loaded here -->
+                </div>
+            </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2024 EasyCab. All rights reserved.</p>
-    </footer>
+    <!-- Feedback Detail Modal -->
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 class="modal-title">Feedback Details</h3>
+                <span class="close" id="closeModal">&times;</span>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Feedback details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="closeModalBtn">Close</button>
+                <button class="btn btn-primary" id="markResolvedBtn">
+                    <i class="fas fa-check"></i>
+                    Mark as Resolved
+                </button>
+            </div>
+        </div>
+    </div>
 
-    <!-- Mobile Menu and Filter Script -->
+    <script type="module" src="../Feedback/scripts.js" defer></script>
     <script>
-        // Mobile menu toggle functionality
-        document.getElementById('menu-btn').onclick = function () {
-            document.getElementById('sidebar').classList.toggle('active');
-        };
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
 
-        document.getElementById('close-btn').onclick = function () {
-            document.getElementById('sidebar').classList.remove('active');
-        };
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="feedback-container">
+            
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="header-content">
+                    <h1 class="page-title">
+                        <i class="fas fa-comments"></i>
+                        Feedback Management
+                    </h1>
+                    <p class="page-subtitle">Monitor and respond to user feedback and complaints</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline" id="refresh-feedback">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                    <button class="btn btn-primary" id="export-feedback">
+                        <i class="fas fa-download"></i>
+                        Export
+                    </button>
+                </div>
+            </div>
+
+            <!-- Feedback Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon total">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="total-feedback">0</div>
+                        <div class="stat-label">Total Feedback</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="pending-feedback">0</div>
+                        <div class="stat-label">Pending Review</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon resolved">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="resolved-feedback">0</div>
+                        <div class="stat-label">Resolved</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon rating">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="avg-rating">0.0</div>
+                        <div class="stat-label">Avg Rating</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="filters-section">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-feedback" placeholder="Search feedback by user, content, or ID...">
+                </div>
+                <div class="filter-controls">
+                    <select id="status-filter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="resolved">Resolved</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                    <select id="type-filter" class="filter-select">
+                        <option value="">All Types</option>
+                        <option value="complaint">Complaint</option>
+                        <option value="suggestion">Suggestion</option>
+                        <option value="compliment">Compliment</option>
+                        <option value="bug-report">Bug Report</option>
+                    </select>
+                    <select id="priority-filter" class="filter-select">
+                        <option value="">All Priorities</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                    <input type="date" id="date-filter" class="filter-date">
+                </div>
+            </div>
+
+            <!-- Feedback List -->
+            <div class="feedback-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-list"></i>
+                        Feedback List
+                    </h2>
+                    <div class="view-controls">
+                        <button class="view-btn active" data-view="list">
+                            <i class="fas fa-list"></i>
+                        </button>
+                        <button class="view-btn" data-view="grid">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="feedback-list" id="feedback-list">
+                    <!-- Sample feedback items will be loaded here -->
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>No feedback found</h3>
+                        <p>No feedback matches your current filters</p>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="pagination">
+                    <button class="page-btn" id="prev-page">
+                        <i class="fas fa-chevron-left"></i>
+                        Previous
+                    </button>
+                    <div class="page-numbers" id="page-numbers">
+                        <!-- Page numbers will be inserted here -->
+                    </div>
+                    <button class="page-btn" id="next-page">
+                        Next
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Feedback Detail Modal -->
+    <div id="feedback-modal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 class="modal-title">Feedback Details</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="feedback-detail" id="feedback-detail">
+                    <!-- Feedback details will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="close-modal">Close</button>
+                <button class="btn btn-warning" id="mark-in-progress">Mark In Progress</button>
+                <button class="btn btn-success" id="mark-resolved">Mark Resolved</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="../Feedback/scripts.js" defer></script>
+    <script>
+        // Enhanced feedback management functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize
+            loadFeedbackData();
+            setupEventListeners();
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Mobile menu toggle
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+        });
+
+        function setupEventListeners() {
+            // Search functionality
+            document.getElementById('search-feedback').addEventListener('input', filterFeedback);
+            
+            // Filter controls
+            document.getElementById('status-filter').addEventListener('change', filterFeedback);
+            document.getElementById('type-filter').addEventListener('change', filterFeedback);
+            document.getElementById('priority-filter').addEventListener('change', filterFeedback);
+            document.getElementById('date-filter').addEventListener('change', filterFeedback);
+            
+            // View controls
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelector('.view-btn.active').classList.remove('active');
+                    this.classList.add('active');
+                    toggleView(this.dataset.view);
+                });
+            });
+            
+            // Refresh button
+            document.getElementById('refresh-feedback').addEventListener('click', loadFeedbackData);
+            
+            // Export button
+            document.getElementById('export-feedback').addEventListener('click', exportFeedbackData);
+        }
+
+        function loadFeedbackData() {
+            const loading = document.getElementById('loading-overlay');
+            loading.style.display = 'flex';
+            
+            // Simulate API call
+            setTimeout(() => {
+                const sampleFeedback = generateSampleFeedback();
+                displayFeedback(sampleFeedback);
+                updateStats(sampleFeedback);
+                loading.style.display = 'none';
+            }, 1500);
+        }
+
+        function generateSampleFeedback() {
+            return [
+                {
+                    id: 'FB001',
+                    user: 'John Doe (19BCE1234)',
+                    type: 'complaint',
+                    priority: 'high',
+                    status: 'pending',
+                    subject: 'Bus delay issue',
+                    message: 'The 8:00 AM bus from hostel was 30 minutes late today. This is affecting my attendance.',
+                    date: '2025-01-15',
+                    rating: 2
+                },
+                {
+                    id: 'FB002',
+                    user: 'Jane Smith (19BCE5678)',
+                    type: 'suggestion',
+                    priority: 'medium',
+                    status: 'resolved',
+                    subject: 'Real-time tracking feature',
+                    message: 'It would be great to have real-time bus tracking so we know exactly when the bus will arrive.',
+                    date: '2025-01-14',
+                    rating: 4
+                },
+                {
+                    id: 'FB003',
+                    user: 'Mike Johnson (19BCE9012)',
+                    type: 'compliment',
+                    priority: 'low',
+                    status: 'closed',
+                    subject: 'Excellent service',
+                    message: 'The driver Mr. Ravi is very punctual and courteous. Great service!',
+                    date: '2025-01-13',
+                    rating: 5
+                }
+            ];
+        }
+
+        function displayFeedback(feedbackData) {
+            const container = document.getElementById('feedback-list');
+            
+            if (feedbackData.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>No feedback found</h3>
+                        <p>No feedback matches your current filters</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = feedbackData.map(feedback => `
+                <div class="feedback-item" data-id="${feedback.id}">
+                    <div class="feedback-header">
+                        <div class="feedback-meta">
+                            <span class="feedback-id">#${feedback.id}</span>
+                            <span class="feedback-date">${feedback.date}</span>
+                        </div>
+                        <div class="feedback-badges">
+                            <span class="badge priority-${feedback.priority}">${feedback.priority}</span>
+                            <span class="badge status-${feedback.status}">${feedback.status}</span>
+                            <span class="badge type-${feedback.type}">${feedback.type}</span>
+                        </div>
+                    </div>
+                    <div class="feedback-content">
+                        <h3 class="feedback-subject">${feedback.subject}</h3>
+                        <p class="feedback-user">
+                            <i class="fas fa-user"></i>
+                            ${feedback.user}
+                        </p>
+                        <p class="feedback-message">${feedback.message}</p>
+                        <div class="feedback-rating">
+                            <span class="rating-label">Rating:</span>
+                            <div class="stars">
+                                ${Array.from({length: 5}, (_, i) => 
+                                    `<i class="fas fa-star ${i < feedback.rating ? 'filled' : ''}"></i>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feedback-actions">
+                        <button class="action-btn view-btn" onclick="viewFeedback('${feedback.id}')">
+                            <i class="fas fa-eye"></i>
+                            View Details
+                        </button>
+                        <button class="action-btn reply-btn">
+                            <i class="fas fa-reply"></i>
+                            Reply
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateStats(feedbackData) {
+            document.getElementById('total-feedback').textContent = feedbackData.length;
+            document.getElementById('pending-feedback').textContent = 
+                feedbackData.filter(f => f.status === 'pending').length;
+            document.getElementById('resolved-feedback').textContent = 
+                feedbackData.filter(f => f.status === 'resolved').length;
+            
+            const avgRating = feedbackData.length > 0 ? 
+                (feedbackData.reduce((sum, f) => sum + f.rating, 0) / feedbackData.length).toFixed(1) : '0.0';
+            document.getElementById('avg-rating').textContent = avgRating;
+        }
+
+        function filterFeedback() {
+            // Implementation for filtering feedback
+            console.log('Filtering feedback...');
+        }
+
+        function toggleView(view) {
+            const container = document.getElementById('feedback-list');
+            container.className = `feedback-list ${view}-view`;
+        }
+
+        function viewFeedback(id) {
+            const modal = document.getElementById('feedback-modal');
+            modal.style.display = 'block';
+            // Load feedback details
+        }
+
+        function exportFeedbackData() {
+            console.log('Exporting feedback data...');
+        }
     </script>
 </body>
 </html>

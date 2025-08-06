@@ -1,53 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VITGO | Driver Details</title>
-    <link rel="stylesheet" href="../EasyCab Driver Details/styles.css">
+    <title>VITGO Admin | Driver Details</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../assets/admin-shared.css">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Favicon -->
     <link rel="icon" href="../assets/logo (1).png" type="image/x-icon">
 </head>
-
 <body>
-
-    <!-- Header -->
-    <header>
-        <div class="logo">
-            <img src="../assets/logo (1).png" alt="EasyCab Logo">
-            <span>VITGO | Driver Details</span>
-            <button class="menu-btn" id="menu-btn">Menu</button>
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-brand">
+            <img src="../assets/logo (1).png" alt="VITGO Logo" class="nav-logo">
+            <span class="logo-text">VITGO</span>
+            <span class="admin-badge">Admin Panel</span>
         </div>
-    </header>
-
-    <!-- Sidebar -->
-    <nav class="sidebar" id="sidebar">
-        <button class="close-btn" id="close-btn">&times;</button>
-        <h3>Menu</h3>
-        <ul>
-            <li><a href="../Dashboard/index.html">Dashboard</a></li>
-            <li><a href="../VITian Details/index.html">VITian Details</a></li>
-            <li><a href="../VITian Location Details/index.html">VITian Location Details</a></li>
-            <li><a href="../Gate Entry/index.html">Gate Entry</a></li>
-            <li><a href="../in-out/index.html">Scanner</a></li>
-            <li><a href="../Plans/index.html">VITians Plans</a></li>
-            <li><a href="../Feedback/index.html">VITians Feedback</a></li>
-            <li><a href="../VITian Notice/index.html">VITians Notice</a></li>
-            <li><a href="../EasyCab Driver Details/index.html">TAXI Driver Details</a></li>
-            <li><a href="../EasyCab Employee Details/index.html">TAXI Employee Details</a></li>
-        </ul>
+        
+        <div class="nav-menu">
+            <a href="../Dashboard/index.html" class="nav-link">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="../VITian Details/index.html" class="nav-link">
+                <i class="fas fa-users"></i>
+                <span>Students</span>
+            </a>
+            <a href="../VITian Location Details/index.html" class="nav-link">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Locations</span>
+            </a>
+            <a href="../EasyCab Driver Details/index.html" class="nav-link active">
+                <i class="fas fa-id-card"></i>
+                <span>Drivers</span>
+            </a>
+            <a href="../EasyCab Employee Details/index.html" class="nav-link">
+                <i class="fas fa-user-tie"></i>
+                <span>Employees</span>
+            </a>
+            <a href="../Feedback/index.html" class="nav-link">
+                <i class="fas fa-comments"></i>
+                <span>Feedback</span>
+            </a>
+            <a href="../Plans/index.html" class="nav-link">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Plans</span>
+            </a>
+        </div>
+        
+        <div class="nav-user">
+            <div class="user-info">
+                <span class="user-name">Admin</span>
+                <span class="user-role">Administrator</span>
+            </div>
+            <div class="user-avatar">
+                <i class="fas fa-user-shield"></i>
+            </div>
+        </div>
+        
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
     </nav>
 
-    <!-- Spinner -->
-    <div class="spinner" id="spinner">
-        <video autoplay loop muted>
-            <source src="../assets/preloader.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div class="loading-text">Please wait, the dashboard is loading...</div>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-container">
+            <!-- Page Header -->
+            <header class="page-header">
+                <div class="header-content">
+                    <h1>
+                        <i class="fas fa-id-card"></i>
+                        Driver Management
+                    </h1>
+                    <p class="page-subtitle">Manage and monitor taxi driver information and performance</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">45</div>
+                            <div class="stat-label">Total Drivers</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">32</div>
+                            <div class="stat-label">Active Today</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">4.6</div>
+                            <div class="stat-label">Avg Rating</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Controls Section -->
+            <section class="controls-section">
+                <h3 class="section-title">
+                    <i class="fas fa-filter"></i>
+                    Filter & Search
+                </h3>
+                <div class="controls-row">
+                    <div class="control-group">
+                        <label class="control-label">Search Drivers</label>
+                        <input type="text" class="control-input" id="searchInput" placeholder="Search by name, phone, or vehicle...">
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Status</label>
+                        <select class="control-select" id="filterStatus">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="suspended">Suspended</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Rating</label>
+                        <select class="control-select" id="filterRating">
+                            <option value="">All Ratings</option>
+                            <option value="5">5 Stars</option>
+                            <option value="4">4+ Stars</option>
+                            <option value="3">3+ Stars</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Actions</label>
+                        <div class="button-group">
+                            <button class="btn btn-outline" onclick="clearFilters()">
+                                <i class="fas fa-times"></i>
+                                Clear
+                            </button>
+                            <button class="btn btn-primary" onclick="addNewDriver()">
+                                <i class="fas fa-plus"></i>
+                                Add Driver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Drivers Section -->
+            <section class="drivers-section">
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <i class="fas fa-list"></i>
+                        Driver Directory
+                    </h3>
+                    <div class="section-actions">
+                        <button class="btn btn-outline" onclick="refreshDrivers()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                        <button class="btn btn-primary" onclick="exportDrivers()">
+                            <i class="fas fa-download"></i>
+                            Export
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="drivers-grid" id="driversGrid">
+                    <!-- Driver cards will be populated by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Driver Detail Modal -->
+    <div class="modal" id="driverModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>
+                    <i class="fas fa-id-card"></i>
+                    Driver Details
+                </h3>
+                <button class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Driver details will be populated by JavaScript -->
+            </div>
+        </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Add Driver Modal -->
+    <div class="modal" id="addDriverModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>
+                    <i class="fas fa-plus"></i>
+                    Add New Driver
+                </h3>
+                <button class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="driver-form" id="addDriverForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" class="form-input" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" class="form-input" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">License Number *</label>
+                            <input type="text" class="form-input" name="license" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Vehicle Number *</label>
+                            <input type="text" class="form-input" name="vehicle" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Vehicle Type</label>
+                            <select class="form-select" name="vehicleType">
+                                <option value="sedan">Sedan</option>
+                                <option value="suv">SUV</option>
+                                <option value="hatchback">Hatchback</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="closeModal(document.getElementById('addDriverModal'))">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Add Driver
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner">
+            <i class="fas fa-circle-notch fa-spin"></i>
+        </div>
+        <div class="loading-text">Loading driver information...</div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
     <div class="content">
         <h1>Driver Dashboard</h1>
         <p id="totalDrivers">Total Drivers: 0</p>

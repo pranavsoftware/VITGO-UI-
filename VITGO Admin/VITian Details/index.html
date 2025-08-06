@@ -1,163 +1,590 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VITian Details | VITGO Admin</title>
     <link rel="stylesheet" href="../VITian Details/styles.css">
     <link rel="icon" href="../assets/logo (1).png" type="image/x-icon">
-    <title>VITGO | VITian Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
-    <div class="loader"></div>
-
-
-    <!-- Sidebar -->
-    <nav class="sidebar" id="sidebar">
-        <button class="close-btn" id="close-btn">&times;</button>
-        <h3>Menu</h3>
-        <ul>
-            <li><a href="../Dashboard/index.html">Dashboard</a></li>
-            <li><a href="../VITian Details/index.html">VITian Details</a></li>
-            <li><a href="../VITian Location Details/index.html">VITian Location Details</a></li>
-            <li><a href="../Gate Entry/index.html">Gate Entry</a></li>
-            <li><a href="../in-out/index.html">Scanner</a></li>
-            <li><a href="../Plans/index.html">VITians Plans</a></li>
-            <li><a href="../Feedback/index.html">VITians Feedback</a></li>
-            <li><a href="../VITian Notice/index.html">VITians Notice</a></li>
-            <li><a href="../EasyCab Driver Details/index.html">TAXI Driver Details</a></li>
-            <li><a href="../EasyCab Employee Details/index.html">TAXI Employee Details</a></li>
-        </ul>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="../assets/logo (1).png" alt="VITGO Logo" class="logo-img">
+                <span class="logo-text">VITGO</span>
+                <span class="admin-badge">Admin</span>
+            </div>
+            <div class="nav-menu">
+                <a href="../Dashboard/index.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="../../LM/index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="../Login Page/index.html" class="nav-link logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
     </nav>
 
-    <!-- Header -->
-    <header>
-        <div class="logo">
-            <img src="../assets/logo (1).png" alt="Company Logo">
-            <h1>VITGO | VITian Details</h1>
-            <button class="menu-btn" id="menu-btn">Menu</button>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner">
+            <i class="fas fa-spinner fa-spin"></i>
         </div>
-    </header>
-
-    <!-- Main container -->
-    <div class="container">
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search users..." onkeyup="filterUsers()">
-        </div>
-
-        <div class="user-details" id="userDetails">
-            <!-- User details will be dynamically populated here -->
-        </div>
+        <div class="loading-text">Loading VITian Data...</div>
     </div>
 
-    <!-- Update Data Modal -->
-    <div id="updateModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeUpdateModal">&times;</span>
-            <h2>Update User Data</h2>
-            <form id="updateForm">
-                <label for="name">Name:</label>
-                <input type="text" id="updateName" name="name" required>
-                <label for="email">Email:</label>
-                <input type="email" id="updateEmail" name="email" required>
-                <label for="mobile">Mobile:</label>
-                <input type="text" id="updateMobile" name="mobile" required>
-                <label for="parentEmail">Parent's Email:</label>
-                <input type="email" id="updateParentEmail" name="parentEmail" required>
-                <label for="parentsMobile">Parent's Mobile:</label>
-                <input type="text" id="updateParentsMobile" name="parentsMobile" required>
-                <button type="submit">Update</button>
-            </form>
-            <div id="historyContent">
-                <!-- Last update history will be shown here -->
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="vitian-container">
+            
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="header-content">
+                    <h1 class="page-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        VITian Details
+                    </h1>
+                    <p class="page-subtitle">Manage and view student information and transport data</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline" id="refresh-data">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                    <button class="btn btn-secondary" id="export-data">
+                        <i class="fas fa-download"></i>
+                        Export
+                    </button>
+                    <button class="btn btn-primary" id="add-vitian">
+                        <i class="fas fa-user-plus"></i>
+                        Add VITian
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon total">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="total-vitians">0</div>
+                        <div class="stat-label">Total VITians</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon active">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="active-vitians">0</div>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon transport">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="transport-users">0</div>
+                        <div class="stat-label">Using Transport</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon new">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="new-registrations">0</div>
+                        <div class="stat-label">New This Month</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="search-filters-section">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search by name, registration number, or email...">
+                </div>
+                <div class="filter-controls">
+                    <select id="school-filter" class="filter-select">
+                        <option value="">All Schools</option>
+                        <option value="SCOPE">SCOPE</option>
+                        <option value="SENSE">SENSE</option>
+                        <option value="SMEC">SMEC</option>
+                        <option value="SELECT">SELECT</option>
+                        <option value="SAS">SAS</option>
+                        <option value="VITBS">VITBS</option>
+                        <option value="VITSOL">VITSOL</option>
+                    </select>
+                    <select id="year-filter" class="filter-select">
+                        <option value="">All Years</option>
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                        <option value="5">5th Year</option>
+                    </select>
+                    <select id="transport-filter" class="filter-select">
+                        <option value="">All Transport Status</option>
+                        <option value="active">Using Transport</option>
+                        <option value="inactive">Not Using Transport</option>
+                        <option value="pending">Pending Approval</option>
+                    </select>
+                    <select id="status-filter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="suspended">Suspended</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- VITians List -->
+            <div class="vitians-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-list"></i>
+                        VITians List
+                    </h2>
+                    <div class="view-controls">
+                        <button class="view-btn active" data-view="table">
+                            <i class="fas fa-table"></i>
+                        </button>
+                        <button class="view-btn" data-view="grid">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Table View -->
+                <div class="table-container" id="table-view">
+                    <table class="vitians-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="select-all">
+                                </th>
+                                <th>Photo</th>
+                                <th>Reg No</th>
+                                <th>Name</th>
+                                <th>School</th>
+                                <th>Year</th>
+                                <th>Contact</th>
+                                <th>Transport</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vitians-table-body">
+                            <!-- Table rows will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Grid View -->
+                <div class="grid-container" id="grid-view" style="display: none;">
+                    <div class="vitians-grid" id="vitians-grid">
+                        <!-- Grid cards will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="empty-state" style="display: none;">
+                    <div class="empty-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>No VITians found</h3>
+                    <p>No students match your current search and filter criteria</p>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="pagination">
+                    <div class="pagination-info">
+                        Showing <span id="showing-start">0</span> to <span id="showing-end">0</span> of <span id="total-records">0</span> records
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="page-btn" id="first-page">
+                            <i class="fas fa-angle-double-left"></i>
+                        </button>
+                        <button class="page-btn" id="prev-page">
+                            <i class="fas fa-angle-left"></i>
+                        </button>
+                        <div class="page-numbers" id="page-numbers">
+                            <!-- Page numbers will be inserted here -->
+                        </div>
+                        <button class="page-btn" id="next-page">
+                            <i class="fas fa-angle-right"></i>
+                        </button>
+                        <button class="page-btn" id="last-page">
+                            <i class="fas fa-angle-double-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- VITian Detail Modal -->
+    <div id="vitian-modal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 class="modal-title">VITian Details</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="vitian-detail" id="vitian-detail">
+                    <!-- VITian details will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="close-modal">Close</button>
+                <button class="btn btn-warning" id="edit-vitian">Edit</button>
+                <button class="btn btn-primary" id="view-transport">View Transport</button>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 EasyCab. All rights reserved.</p>
-    </footer>
+    <!-- Add/Edit VITian Modal -->
+    <div id="add-vitian-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New VITian</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form class="vitian-form" id="vitian-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-id-card"></i>
+                                Registration Number
+                            </label>
+                            <input type="text" class="form-input" id="reg-number" placeholder="19BCE1234" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-user"></i>
+                                Full Name
+                            </label>
+                            <input type="text" class="form-input" id="full-name" placeholder="Enter full name" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-envelope"></i>
+                                Email
+                            </label>
+                            <input type="email" class="form-input" id="email" placeholder="student@vitstudent.ac.in" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-phone"></i>
+                                Contact Number
+                            </label>
+                            <input type="tel" class="form-input" id="contact" placeholder="9876543210" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-university"></i>
+                                School
+                            </label>
+                            <select class="form-select" id="school" required>
+                                <option value="">Select School</option>
+                                <option value="SCOPE">SCOPE</option>
+                                <option value="SENSE">SENSE</option>
+                                <option value="SMEC">SMEC</option>
+                                <option value="SELECT">SELECT</option>
+                                <option value="SAS">SAS</option>
+                                <option value="VITBS">VITBS</option>
+                                <option value="VITSOL">VITSOL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-calendar"></i>
+                                Year
+                            </label>
+                            <select class="form-select" id="year" required>
+                                <option value="">Select Year</option>
+                                <option value="1">1st Year</option>
+                                <option value="2">2nd Year</option>
+                                <option value="3">3rd Year</option>
+                                <option value="4">4th Year</option>
+                                <option value="5">5th Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Address
+                        </label>
+                        <textarea class="form-textarea" id="address" rows="3" placeholder="Enter full address"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button">Cancel</button>
+                <button class="btn btn-primary" type="submit" form="vitian-form">Save VITian</button>
+            </div>
+        </div>
+    </div>
 
-    <!-- JavaScript -->
-    <script type="module" src="../VITian Details/script.js"></script>
+    <!-- Scripts -->
+    <script type="module" src="../VITian Details/script.js" defer></script>
     <script>
-        // Mobile menu functionality
-        document.getElementById('menu-btn').onclick = function () {
-            document.getElementById('sidebar').classList.toggle('active');
-        };
-
-        document.getElementById('close-btn').onclick = function () {
-            document.getElementById('sidebar').classList.remove('active');
-        };
-
-        // Function to filter users based on search input
-        function filterUsers() {
-            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-            const users = document.querySelectorAll('.user-table tbody tr');
-            users.forEach(user => {
-                const userName = user.querySelector('td:nth-child(2)').textContent.toLowerCase();
-                if (userName.includes(searchQuery)) {
-                    user.style.display = '';
+        // Enhanced VITian management functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize
+            loadVITianData();
+            setupEventListeners();
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
                 } else {
-                    user.style.display = 'none';
+                    navbar.classList.remove('scrolled');
                 }
             });
+
+            // Mobile menu toggle
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+        });
+
+        function setupEventListeners() {
+            // Search functionality
+            document.getElementById('search-input').addEventListener('input', filterVITians);
+            
+            // Filter controls
+            document.getElementById('school-filter').addEventListener('change', filterVITians);
+            document.getElementById('year-filter').addEventListener('change', filterVITians);
+            document.getElementById('transport-filter').addEventListener('change', filterVITians);
+            document.getElementById('status-filter').addEventListener('change', filterVITians);
+            
+            // View controls
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelector('.view-btn.active').classList.remove('active');
+                    this.classList.add('active');
+                    toggleView(this.dataset.view);
+                });
+            });
+            
+            // Action buttons
+            document.getElementById('refresh-data').addEventListener('click', loadVITianData);
+            document.getElementById('export-data').addEventListener('click', exportVITianData);
+            document.getElementById('add-vitian').addEventListener('click', openAddVITianModal);
+            
+            // Select all checkbox
+            document.getElementById('select-all').addEventListener('change', toggleSelectAll);
         }
 
-        // Function to display the update modal and populate form
-        async function showUpdateModal(userId) {
-            const user = users.find(u => u.id === userId);
-            if (user) {
-                const updateModal = document.getElementById('updateModal');
-                document.getElementById('updateName').value = user.name;
-                document.getElementById('updateEmail').value = user.email;
-                document.getElementById('updateMobile').value = user.mobile;
-                document.getElementById('updateParentEmail').value = user.parentEmail;
-                document.getElementById('updateParentsMobile').value = user.parentsMobile;
+        function loadVITianData() {
+            const loading = document.getElementById('loading-overlay');
+            loading.style.display = 'flex';
+            
+            // Simulate API call
+            setTimeout(() => {
+                const sampleData = generateSampleVITians();
+                displayVITians(sampleData);
+                updateStats(sampleData);
+                loading.style.display = 'none';
+            }, 2000);
+        }
 
-                // Load the last update history for this user
-                const historyContent = document.getElementById('historyContent');
-                historyContent.innerHTML = `
-                    <p><strong>Last Update:</strong> ${user.lastUpdate || 'No updates available'}</p>
-                `;
+        function generateSampleVITians() {
+            const schools = ['SCOPE', 'SENSE', 'SMEC', 'SELECT', 'SAS', 'VITBS', 'VITSOL'];
+            const years = [1, 2, 3, 4, 5];
+            const transportStatus = ['active', 'inactive', 'pending'];
+            const status = ['active', 'inactive', 'suspended'];
+            
+            return Array.from({length: 50}, (_, i) => ({
+                id: `VIT${String(i + 1).padStart(3, '0')}`,
+                regNo: `19BCE${String(1000 + i).padStart(4, '0')}`,
+                name: `Student ${i + 1}`,
+                school: schools[Math.floor(Math.random() * schools.length)],
+                year: years[Math.floor(Math.random() * years.length)],
+                email: `student${i + 1}@vitstudent.ac.in`,
+                contact: `987654${String(i).padStart(4, '0')}`,
+                address: `Address ${i + 1}, VIT Campus`,
+                transportStatus: transportStatus[Math.floor(Math.random() * transportStatus.length)],
+                status: status[Math.floor(Math.random() * status.length)],
+                joinDate: '2023-07-15',
+                photo: '../assets/default Avatar .jpg'
+            }));
+        }
 
-                updateModal.style.display = 'block';
+        function displayVITians(data) {
+            const tableBody = document.getElementById('vitians-table-body');
+            const grid = document.getElementById('vitians-grid');
+            
+            // Table view
+            tableBody.innerHTML = data.map(vitian => `
+                <tr data-id="${vitian.id}">
+                    <td><input type="checkbox" class="row-checkbox"></td>
+                    <td>
+                        <img src="${vitian.photo}" alt="${vitian.name}" class="student-photo">
+                    </td>
+                    <td><strong>${vitian.regNo}</strong></td>
+                    <td>${vitian.name}</td>
+                    <td><span class="school-badge">${vitian.school}</span></td>
+                    <td>${vitian.year}</td>
+                    <td>
+                        <div class="contact-info">
+                            <div>${vitian.contact}</div>
+                            <div class="email">${vitian.email}</div>
+                        </div>
+                    </td>
+                    <td><span class="badge transport-${vitian.transportStatus}">${vitian.transportStatus}</span></td>
+                    <td><span class="badge status-${vitian.status}">${vitian.status}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn view" onclick="viewVITian('${vitian.id}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn edit" onclick="editVITian('${vitian.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteVITian('${vitian.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            
+            // Grid view
+            grid.innerHTML = data.map(vitian => `
+                <div class="vitian-card" data-id="${vitian.id}">
+                    <div class="card-header">
+                        <img src="${vitian.photo}" alt="${vitian.name}" class="card-photo">
+                        <div class="card-badges">
+                            <span class="badge status-${vitian.status}">${vitian.status}</span>
+                            <span class="badge transport-${vitian.transportStatus}">${vitian.transportStatus}</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-name">${vitian.name}</h3>
+                        <p class="card-reg">${vitian.regNo}</p>
+                        <div class="card-details">
+                            <div class="detail-item">
+                                <i class="fas fa-university"></i>
+                                <span>${vitian.school} - Year ${vitian.year}</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-phone"></i>
+                                <span>${vitian.contact}</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>${vitian.email}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn view" onclick="viewVITian('${vitian.id}')">
+                            <i class="fas fa-eye"></i>
+                            View
+                        </button>
+                        <button class="action-btn edit" onclick="editVITian('${vitian.id}')">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-                document.getElementById('updateForm').onsubmit = async function (e) {
-                    e.preventDefault();
-                    const updatedUser = {
-                        name: document.getElementById('updateName').value,
-                        email: document.getElementById('updateEmail').value,
-                        mobile: document.getElementById('updateMobile').value,
-                        parentEmail: document.getElementById('updateParentEmail').value,
-                        parentsMobile: document.getElementById('updateParentsMobile').value,
-                        lastUpdate: new Date().toLocaleString() // Store the last update time
-                    };
+        function updateStats(data) {
+            document.getElementById('total-vitians').textContent = data.length;
+            document.getElementById('active-vitians').textContent = 
+                data.filter(v => v.status === 'active').length;
+            document.getElementById('transport-users').textContent = 
+                data.filter(v => v.transportStatus === 'active').length;
+            document.getElementById('new-registrations').textContent = '15'; // Mock data
+        }
 
-                    const userDocRef = doc(db, 'users', userId);
-                    try {
-                        await updateDoc(userDocRef, updatedUser);
-                        fetchUsers();
-                        document.getElementById('updateModal').style.display = 'none';
-                    } catch (error) {
-                        console.error("Error updating user:", error);
-                    }
-                };
+        function toggleView(view) {
+            const tableView = document.getElementById('table-view');
+            const gridView = document.getElementById('grid-view');
+            
+            if (view === 'table') {
+                tableView.style.display = 'block';
+                gridView.style.display = 'none';
+            } else {
+                tableView.style.display = 'none';
+                gridView.style.display = 'block';
             }
         }
 
-        // Close the modal when clicking the close button
-        document.getElementById('closeUpdateModal').onclick = function () {
-            document.getElementById('updateModal').style.display = 'none';
-        };
+        function filterVITians() {
+            // Implementation for filtering
+            console.log('Filtering VITians...');
+        }
 
-        // Hide the loading spinner once the content is loaded
-        window.onload = function () {
-            document.getElementById('spinner').style.display = 'none';
-        };
+        function viewVITian(id) {
+            const modal = document.getElementById('vitian-modal');
+            modal.style.display = 'block';
+            // Load VITian details
+        }
+
+        function editVITian(id) {
+            // Open edit modal
+            console.log('Edit VITian:', id);
+        }
+
+        function deleteVITian(id) {
+            if (confirm('Are you sure you want to delete this VITian?')) {
+                console.log('Delete VITian:', id);
+            }
+        }
+
+        function openAddVITianModal() {
+            const modal = document.getElementById('add-vitian-modal');
+            modal.style.display = 'block';
+        }
+
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('select-all');
+            const checkboxes = document.querySelectorAll('.row-checkbox');
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+            });
+        }
+
+        function exportVITianData() {
+            console.log('Exporting VITian data...');
+        }
     </script>
 </body>
-
 </html>
