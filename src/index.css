@@ -1,0 +1,170 @@
+/* VITGO Global CSS Reset and Variables */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Colors */
+  --vitgo-primary: #6366f1;
+  --vitgo-primary-dark: #4f46e5;
+  --vitgo-primary-light: #a5b4fc;
+  --vitgo-secondary: #64748b;
+  --vitgo-success: #10b981;
+  --vitgo-warning: #f59e0b;
+  --vitgo-danger: #ef4444;
+  --vitgo-white: #ffffff;
+  
+  /* Text Colors */
+  --vitgo-text-primary: #1e293b;
+  --vitgo-text-secondary: #64748b;
+  --vitgo-text-white: #ffffff;
+  
+  /* Background Colors */
+  --vitgo-bg-primary: #ffffff;
+  --vitgo-bg-secondary: #f8fafc;
+  --vitgo-bg-tertiary: #f1f5f9;
+  
+  /* Gray Scale */
+  --vitgo-gray-50: #f8fafc;
+  --vitgo-gray-100: #f1f5f9;
+  --vitgo-gray-200: #e2e8f0;
+  --vitgo-gray-300: #cbd5e1;
+  --vitgo-gray-400: #94a3b8;
+  --vitgo-gray-500: #64748b;
+  --vitgo-gray-600: #475569;
+  --vitgo-gray-700: #334155;
+  --vitgo-gray-800: #1e293b;
+  --vitgo-gray-900: #0f172a;
+  
+  /* Border Colors */
+  --vitgo-border-color: #e2e8f0;
+  
+  /* Spacing */
+  --vitgo-space-1: 0.25rem;
+  --vitgo-space-2: 0.5rem;
+  --vitgo-space-3: 0.75rem;
+  --vitgo-space-4: 1rem;
+  --vitgo-space-5: 1.25rem;
+  --vitgo-space-6: 1.5rem;
+  --vitgo-space-8: 2rem;
+  --vitgo-space-10: 2.5rem;
+  --vitgo-space-12: 3rem;
+  --vitgo-space-16: 4rem;
+  --vitgo-space-20: 5rem;
+  --vitgo-space-24: 6rem;
+  
+  /* Border Radius */
+  --vitgo-radius-sm: 0.125rem;
+  --vitgo-radius-md: 0.375rem;
+  --vitgo-radius-lg: 0.5rem;
+  --vitgo-radius-xl: 0.75rem;
+  --vitgo-radius-2xl: 1rem;
+  --vitgo-radius-full: 9999px;
+  
+  /* Shadows */
+  --vitgo-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --vitgo-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --vitgo-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --vitgo-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Transitions */
+  --vitgo-transition-fast: all 0.15s ease-in-out;
+  --vitgo-transition-normal: all 0.2s ease-in-out;
+  --vitgo-transition-slow: all 0.3s ease-in-out;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--vitgo-bg-secondary);
+  color: var(--vitgo-text-primary);
+  line-height: 1.6;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Global Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--vitgo-text-primary);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+p {
+  color: var(--vitgo-text-secondary);
+  line-height: 1.6;
+}
+
+/* Utility Classes */
+.vitgo-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.vitgo-text-center {
+  text-align: center;
+}
+
+.vitgo-text-left {
+  text-align: left;
+}
+
+.vitgo-text-right {
+  text-align: right;
+}
+
+.vitgo-flex {
+  display: flex;
+}
+
+.vitgo-flex-col {
+  flex-direction: column;
+}
+
+.vitgo-items-center {
+  align-items: center;
+}
+
+.vitgo-justify-center {
+  justify-content: center;
+}
+
+.vitgo-gap-2 {
+  gap: var(--vitgo-space-2);
+}
+
+.vitgo-gap-4 {
+  gap: var(--vitgo-space-4);
+}
+
+.vitgo-mt-4 {
+  margin-top: var(--vitgo-space-4);
+}
+
+.vitgo-mb-4 {
+  margin-bottom: var(--vitgo-space-4);
+}
+
+.vitgo-p-4 {
+  padding: var(--vitgo-space-4);
+}

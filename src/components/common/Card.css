@@ -1,0 +1,57 @@
+/* VITGO Global Card Component Styles */
+.vitgo-card {
+  border-radius: var(--vitgo-radius-lg);
+  transition: var(--vitgo-transition);
+  background-color: var(--vitgo-white);
+}
+
+/* Variants */
+.vitgo-card--default {
+  border: 1px solid var(--vitgo-gray-200);
+  box-shadow: var(--vitgo-shadow-sm);
+}
+
+.vitgo-card--elevated {
+  border: none;
+  box-shadow: var(--vitgo-shadow-md);
+}
+
+.vitgo-card--outlined {
+  border: 2px solid var(--vitgo-gray-200);
+  box-shadow: none;
+}
+
+/* Padding */
+.vitgo-card--padding-none {
+  padding: 0;
+}
+
+.vitgo-card--padding-small {
+  padding: 0.75rem;
+}
+
+.vitgo-card--padding-medium {
+  padding: 1.5rem;
+}
+
+.vitgo-card--padding-large {
+  padding: 2rem;
+}
+
+/* Interactive States */
+.vitgo-card--hoverable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.vitgo-card--clickable {
+  cursor: pointer;
+}
+
+.vitgo-card--clickable:hover {
+  border-color: var(--vitgo-primary);
+}
+
+.vitgo-card--clickable:active {
+  transform: translateY(0);
+}

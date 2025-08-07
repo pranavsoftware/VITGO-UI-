@@ -1,0 +1,132 @@
+/* VITGO Global Modal Component Styles */
+.vitgo-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: vitgo-modal-fade-in 0.2s ease-out;
+}
+
+.vitgo-modal {
+  background-color: var(--vitgo-white);
+  border-radius: var(--vitgo-radius-lg);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: vitgo-modal-scale-in 0.2s ease-out;
+}
+
+/* Sizes */
+.vitgo-modal--small {
+  width: 100%;
+  max-width: 400px;
+}
+
+.vitgo-modal--medium {
+  width: 100%;
+  max-width: 500px;
+}
+
+.vitgo-modal--large {
+  width: 100%;
+  max-width: 800px;
+}
+
+.vitgo-modal--xlarge {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.vitgo-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--vitgo-gray-200);
+  background-color: var(--vitgo-white);
+}
+
+.vitgo-modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--vitgo-gray-600);
+  margin: 0;
+}
+
+.vitgo-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--vitgo-gray-500);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: var(--vitgo-radius-md);
+  transition: var(--vitgo-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+.vitgo-modal-close:hover {
+  background-color: var(--vitgo-gray-100);
+  color: var(--vitgo-gray-600);
+}
+
+.vitgo-modal-content {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Animations */
+@keyframes vitgo-modal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes vitgo-modal-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .vitgo-modal-overlay {
+    padding: 0.5rem;
+  }
+  
+  .vitgo-modal--small,
+  .vitgo-modal--medium,
+  .vitgo-modal--large,
+  .vitgo-modal--xlarge {
+    max-width: 100%;
+    width: 100%;
+    max-height: 95vh;
+  }
+  
+  .vitgo-modal-header,
+  .vitgo-modal-content {
+    padding: 1rem;
+  }
+}

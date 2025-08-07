@@ -1,0 +1,110 @@
+/* VITGO Global Input Component Styles */
+.vitgo-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.vitgo-input-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--vitgo-gray-600);
+  margin-bottom: 0.25rem;
+}
+
+.vitgo-input-required {
+  color: var(--vitgo-danger);
+  margin-left: 0.125rem;
+}
+
+.vitgo-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.vitgo-input {
+  width: 100%;
+  border: 1px solid var(--vitgo-gray-200);
+  border-radius: var(--vitgo-radius-md);
+  background-color: var(--vitgo-white);
+  color: var(--vitgo-gray-600);
+  transition: var(--vitgo-transition);
+  font-family: inherit;
+}
+
+.vitgo-input:focus {
+  outline: none;
+  border-color: var(--vitgo-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Sizes */
+.vitgo-input--small {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.vitgo-input--medium {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.vitgo-input--large {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+}
+
+/* States */
+.vitgo-input--error {
+  border-color: var(--vitgo-danger);
+}
+
+.vitgo-input--error:focus {
+  border-color: var(--vitgo-danger);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.vitgo-input--disabled {
+  background-color: var(--vitgo-gray-100);
+  color: var(--vitgo-gray-500);
+  cursor: not-allowed;
+}
+
+/* Icon Support */
+.vitgo-input--with-icon.vitgo-input--icon-left {
+  padding-left: 2.5rem;
+}
+
+.vitgo-input--with-icon.vitgo-input--icon-right {
+  padding-right: 2.5rem;
+}
+
+.vitgo-input-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vitgo-gray-500);
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.vitgo-input-icon--left {
+  left: 0.75rem;
+}
+
+.vitgo-input-icon--right {
+  right: 0.75rem;
+}
+
+.vitgo-input-error {
+  font-size: 0.75rem;
+  color: var(--vitgo-danger);
+  margin-top: 0.25rem;
+}
+
+/* Placeholder */
+.vitgo-input::placeholder {
+  color: var(--vitgo-gray-500);
+}

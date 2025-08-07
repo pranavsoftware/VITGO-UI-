@@ -1,0 +1,147 @@
+/* VITGO Global Button Component Styles */
+:root {
+  --vitgo-primary: #6366f1;
+  --vitgo-primary-dark: #4f46e5;
+  --vitgo-secondary: #64748b;
+  --vitgo-success: #10b981;
+  --vitgo-danger: #ef4444;
+  --vitgo-white: #ffffff;
+  --vitgo-gray-100: #f1f5f9;
+  --vitgo-gray-200: #e2e8f0;
+  --vitgo-gray-500: #64748b;
+  --vitgo-gray-600: #475569;
+  --vitgo-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --vitgo-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --vitgo-radius-md: 0.375rem;
+  --vitgo-radius-lg: 0.5rem;
+  --vitgo-transition: all 0.2s ease-in-out;
+}
+
+.vitgo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  border-radius: var(--vitgo-radius-md);
+  border: 1px solid transparent;
+  transition: var(--vitgo-transition);
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.vitgo-btn:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Sizes */
+.vitgo-btn--small {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.vitgo-btn--medium {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.vitgo-btn--large {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+/* Variants */
+.vitgo-btn--primary {
+  background-color: var(--vitgo-primary);
+  color: var(--vitgo-white);
+  border-color: var(--vitgo-primary);
+  box-shadow: var(--vitgo-shadow-sm);
+}
+
+.vitgo-btn--primary:hover:not(.vitgo-btn--disabled) {
+  background-color: var(--vitgo-primary-dark);
+  border-color: var(--vitgo-primary-dark);
+  box-shadow: var(--vitgo-shadow-md);
+  transform: translateY(-1px);
+}
+
+.vitgo-btn--secondary {
+  background-color: var(--vitgo-white);
+  color: var(--vitgo-gray-600);
+  border-color: var(--vitgo-gray-200);
+  box-shadow: var(--vitgo-shadow-sm);
+}
+
+.vitgo-btn--secondary:hover:not(.vitgo-btn--disabled) {
+  background-color: var(--vitgo-gray-100);
+  border-color: var(--vitgo-gray-500);
+  transform: translateY(-1px);
+}
+
+.vitgo-btn--success {
+  background-color: var(--vitgo-success);
+  color: var(--vitgo-white);
+  border-color: var(--vitgo-success);
+  box-shadow: var(--vitgo-shadow-sm);
+}
+
+.vitgo-btn--success:hover:not(.vitgo-btn--disabled) {
+  background-color: #059669;
+  border-color: #059669;
+  box-shadow: var(--vitgo-shadow-md);
+  transform: translateY(-1px);
+}
+
+.vitgo-btn--danger {
+  background-color: var(--vitgo-danger);
+  color: var(--vitgo-white);
+  border-color: var(--vitgo-danger);
+  box-shadow: var(--vitgo-shadow-sm);
+}
+
+.vitgo-btn--danger:hover:not(.vitgo-btn--disabled) {
+  background-color: #dc2626;
+  border-color: #dc2626;
+  box-shadow: var(--vitgo-shadow-md);
+  transform: translateY(-1px);
+}
+
+/* States */
+.vitgo-btn--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.vitgo-btn--loading {
+  cursor: wait;
+}
+
+.vitgo-btn__text--hidden {
+  opacity: 0;
+}
+
+/* Loading Spinner */
+.vitgo-btn__spinner {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: vitgo-spin 1s linear infinite;
+}
+
+@keyframes vitgo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
